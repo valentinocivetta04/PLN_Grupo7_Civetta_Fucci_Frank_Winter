@@ -14,7 +14,7 @@
 **Clásico** — https://ww3.lectulandia.co/genero/clasico/
 
 ## Cantidad de libros extraídos
-_Pendiente: completar con la cantidad real obtenida al finalizar la ejecución del script._
+`data/libros.csv` contiene **158 libros** extraídos de la categoría "Clásico".
 
 El objetivo configurado en `scraper.py` (constante `LIBROS_OBJETIVO`) es de **150 libros**. El script se detiene automáticamente al alcanzar esa cantidad, o antes si la categoría se queda sin páginas de listado disponibles.
 
@@ -29,15 +29,7 @@ pip install -r requirements.txt
 playwright install chromium
 ```
 
-`requirements.txt` debe incluir:
-
-```
-playwright
-beautifulsoup4
-pandas
-```
-
-(Las librerías `asyncio`, `os`, `re` y `datetime` que también usa `scraper.py` son parte de la biblioteca estándar de Python, no requieren instalación aparte.)
+Las dependencias necesarias están listadas en `requirements.txt` (Playwright, BeautifulSoup4 y pandas). Las librerías `asyncio`, `os`, `re` y `datetime` que también usa `scraper.py` son parte de la biblioteca estándar de Python y no requieren instalación aparte.
 
 ## Instrucciones para ejecutar el programa
 
