@@ -14,7 +14,7 @@
 **Clásico** — https://ww3.lectulandia.co/genero/clasico/
 
 ## Cantidad de libros extraídos
-`data/libros.csv` contiene **158 libros** extraídos de la categoría "Clásico".
+`data/libros.csv` contiene **150 libros** extraídos de la categoría "Clásico".
 
 El objetivo configurado en `scraper.py` (constante `LIBROS_OBJETIVO`) es de **150 libros**. El script se detiene automáticamente al alcanzar esa cantidad, o antes si la categoría se queda sin páginas de listado disponibles.
 
@@ -49,7 +49,6 @@ El script:
 - **Inconsistencia estructural entre fichas del sitio:** se detectó que la sección de sinopsis no tiene siempre la misma estructura interna — en algunas fichas el texto está envuelto en un `<p class="description">`, y en otras queda como texto plano directo dentro del `<div id="sinopsis">`. Se resolvió usando un selector más genérico (`#sinopsis`) que cubre ambos casos sin necesidad de lógica condicional adicional (ver detalle en `docs/diseno_extraccion.md`, sección 3).
 - **Extracción del número de libro dentro de una serie:** el número (ej. "Libro 9 de: ...") no está aislado en una etiqueta propia, sino mezclado como texto junto con el nombre de la serie. Se resolvió con una expresión regular sobre el texto del `<span class="tagTitle">` correspondiente.
 - **Guardado incremental vs. acumulación entre corridas:** la primera versión del script agregaba (`append`) los libros nuevos al final del CSV existente, lo que hacía que ejecuciones sucesivas fueran acumulando datos de corridas anteriores en vez de generar un dataset limpio. Se corrigió agregando un paso inicial que elimina el CSV previo antes de empezar cada corrida.
-- **Organización del repositorio:** la cátedra solicita un repositorio independiente por materia; el material se encontraba inicialmente como un subdirectorio dentro de un repositorio maestro más amplio (TUIA). Se resolvió migrando el historial del subdirectorio a un repositorio propio y enlazándolo al repositorio maestro como submódulo de Git.
 
 ## Estructura del repositorio
 
