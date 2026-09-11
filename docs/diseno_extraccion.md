@@ -28,7 +28,8 @@
 | `titulo` | Título del libro |
 | `autores` | Autor o autores |
 | `generos` | Género o géneros |
-| `serie` | Serie a la que pertenece, si corresponde |
+| `serie` | Serie a la que pertenece, si corresponde (`N/A` si no pertenece a ninguna) |
+| `numero_serie` | Número de orden del libro dentro de la serie, si corresponde (`N/A` si no pertenece a ninguna) |
 | `sinopsis` | Texto completo de la sinopsis |
 | `url_libro` | Dirección de la ficha |
 | `categoria_origen` | Categoría seleccionada por el grupo (Clásico) |
@@ -49,7 +50,7 @@ Análisis realizado sobre una ficha individual de ejemplo:
 | Autores | Ficha individual | `<a class="dinSource">` dentro de `<div id="autor">` | `#autor a.dinSource` |
 | Géneros | Ficha individual | `<a class="dinSource">` dentro de `<div id="genero">` | `#genero a.dinSource` |
 | Serie | Ficha individual | `<a class="dinSource">` dentro de `<div id="serie">` (presente solo si el libro pertenece a una serie) | `#serie a.dinSource` |
-| Sinopsis | Ficha individual | `<p class="description">` dentro de `<div id="sinopsis">` | `#sinopsis p.description` |
+| Sinopsis | Ficha individual | `<div id="sinopsis">` (el texto puede estar directo dentro del div, o dentro de un `<p class="description">` anidado, según la ficha) | `#sinopsis` |
 
 **Ejemplos de HTML inspeccionado:**
 
@@ -85,6 +86,8 @@ Análisis realizado sobre una ficha individual de ejemplo:
 ```
 
 Los selectores fueron obtenidos inspeccionando el HTML real del sitio mediante las herramientas de desarrollo del navegador.
+
+**Nota:** se detectó que la estructura interna de `#sinopsis` varía entre fichas — algunas envuelven el texto en un `<p class="description">`, mientras que otras lo dejan como texto directo dentro del div (sin `<p>` intermedio). Por eso se optó por el selector genérico `#sinopsis`, que funciona en ambos casos.
 
 ---
 
