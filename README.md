@@ -50,6 +50,22 @@ El script:
 - **Extracción del número de libro dentro de una serie:** el número (ej. "Libro 9 de: ...") no está aislado en una etiqueta propia, sino mezclado como texto junto con el nombre de la serie. Se resolvió con una expresión regular sobre el texto del `<span class="tagTitle">` correspondiente.
 - **Guardado incremental vs. acumulación entre corridas:** la primera versión del script agregaba (`append`) los libros nuevos al final del CSV existente, lo que hacía que ejecuciones sucesivas fueran acumulando datos de corridas anteriores en vez de generar un dataset limpio. Se corrigió agregando un paso inicial que elimina el CSV previo antes de empezar cada corrida.
 
+## Metadata del CSV
+
+`data/libros.csv` contiene 9 campos por registro.
+
+| Campo | Descripción | Tipo de dato |
+|---|---|---|
+| titulo | Título del libro. | varchar |
+| autores | Lista de autores del libro. | varchar |
+| generos | Lista de géneros literarios del libro. | varchar |
+| serie | Nombre de la serie. Usa "N/A" si no aplica. | varchar |
+| numero_serie | Número del libro dentro de la serie. Usa "N/A" si no aplica. | varchar |
+| sinopsis | Sinopsis o resumen del libro. | text |
+| url_libro | URL de la ficha del libro. | varchar |
+| categoria_origen | Categoría de origen del scraping. | varchar |
+| fecha_extraccion | Fecha y hora de extracción del registro. | datetime |
+
 ## Estructura del repositorio
 
 ```
