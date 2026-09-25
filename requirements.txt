@@ -1,3 +1,18 @@
+# --- Scraping (TP1) ---
 playwright>=1.47.0
 beautifulsoup4>=4.12.0
 pandas>=2.2.0
+
+# --- Preprocesamiento de texto (Parte A) ---
+nltk>=3.9.1
+
+# --- Embeddings de palabra: Word2Vec propio y modelo pre-entrenado SBW (Parte B) ---
+gensim>=4.3.3
+gdown>=5.2.0
+
+# --- Embeddings de oración: Sentence-BERT (Parte C) ---
+sentence-transformers>=3.0.0
+
+# Nota: no fijar numpy a una versión vieja (ej. numpy==1.23.5) para no romper
+# la compatibilidad con sentence-transformers, que necesita una versión más
+# reciente. Usar el numpy que trae el entorno (Colab) por defecto.

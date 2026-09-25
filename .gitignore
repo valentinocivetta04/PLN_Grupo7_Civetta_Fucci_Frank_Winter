@@ -1,0 +1,51 @@
+# --- Modelos pre-entrenados descargados (pesados, no deben versionarse) ---
+# El notebook descarga este archivo automáticamente vía gdown si no existe.
+data/SBW-vectors-300-min5.bin.gz
+*.bin.gz
+*.bin
+*.vec
+*.vec.gz
+
+# --- Embeddings/vectores generados localmente (se pueden regenerar con el notebook) ---
+*.npy
+*.npz
+*.pkl
+*.model
+*.model.*
+
+# --- Entornos virtuales de Python ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- Cachés y artefactos de Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Cachés de modelos descargados por librerías (Hugging Face / sentence-transformers / torch) ---
+# Por si algún integrante corre el notebook con una variable de entorno que
+# apunte el caché a una carpeta dentro del repo en vez de la home del usuario.
+.cache/
+huggingface_cache/
+
+# --- Credenciales y configuración sensible (Supabase / Postgres del TP2) ---
+.env
+.env.*
+*.pem
+secrets.json
+config.local.*
+
+# --- Navegadores descargados por Playwright (si se instalan localmente al repo) ---
+.playwright/
+ms-playwright/
+
+# --- Archivos de SO / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
