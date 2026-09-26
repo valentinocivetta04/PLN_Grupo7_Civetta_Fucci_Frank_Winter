@@ -13,6 +13,17 @@ gdown>=5.2.0
 # --- Embeddings de oración: Sentence-BERT (Parte C) ---
 sentence-transformers>=3.0.0
 
+# --- Comparación, similitud y visualización (Parte D) ---
+numpy>=1.26.0
+scikit-learn>=1.4.0
+matplotlib>=3.8.0
+
+# --- Persistencia e indexado en Postgres/Supabase con pgvector (Parte E) ---
+psycopg2-binary>=2.9.9
+pgvector>=0.3.0
+python-dotenv>=1.0.1
+
 # Nota: no fijar numpy a una versión vieja (ej. numpy==1.23.5) para no romper
 # la compatibilidad con sentence-transformers, que necesita una versión más
-# reciente. Usar el numpy que trae el entorno (Colab) por defecto.
+# reciente. Usar el numpy que trae el entorno (Colab) por defecto, o el que
+# se indica arriba si se corre fuera de Colab.
