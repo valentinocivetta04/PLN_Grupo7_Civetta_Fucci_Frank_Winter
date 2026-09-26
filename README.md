@@ -66,10 +66,29 @@ El script:
 | categoria_origen | Categoría de origen del scraping. | varchar |
 | fecha_extraccion | Fecha y hora de extracción del registro. | datetime |
 
+## TP2 — Conexión a Supabase (Partes E y F)
+
+Los embeddings se guardan en un proyecto de Supabase con `pgvector`. Las credenciales **no están en el repo**: el notebook lee la variable `SUPABASE_DB_URL` desde un archivo `.env` local (ignorado por git).
+
+1. Copiar la plantilla: `cp .env.example .env`
+2. Reemplazar `<PEDIR_AL_GRUPO>` por la contraseña, que se comparte por privado dentro del grupo.
+3. Instalar dependencias (`pip install -r requirements.txt`) y correr el notebook.
+
+**En Google Colab** no existe el `.env` local. Cargar la URL completa en los *Secrets* de Colab (ícono de la llave) con el nombre `SUPABASE_DB_URL` y ejecutar esto antes de la celda de conexión:
+
+```python
+import os
+from google.colab import userdata
+os.environ["SUPABASE_DB_URL"] = userdata.get("SUPABASE_DB_URL")
+```
+
+`load_dotenv()` no pisa una variable que ya está definida, así que el notebook funciona igual en ambos casos.
+
 ## Estructura del repositorio
 
 ```
 README.md
+.env.example
 src/
   scraper.py
 data/
