@@ -32,7 +32,7 @@ data/
   libros.csv              TP1: corpus de 150 libros
 src/
   scraper.py              TP1: scraper de Lectulandia
-  embedding.ipynb         TP2: notebook ejecutado, con salidas
+  TP2_Civetta_Frank_Fucci_Winter.ipynb   TP2: notebook ejecutado, con salidas
 docs/
   TP-1.pdf, TP-2.pdf      consignas de la cátedra
   diseno_extraccion.md    TP1: diseño de la extracción (Parte 1 de la consigna)
@@ -80,7 +80,7 @@ for nombre in ["SUPABASE_DB_URL", "NVIDIA_API_KEY"]:
 
 **TP1 (scraper):** `python src/scraper.py`. Corre sin abrir ventana, espera 2 segundos entre fichas, guarda cada libro apenas lo procesa y reescribe `data/libros.csv` en cada ejecución. La categoría, la URL y la cantidad de libros se cambian en las constantes del principio del archivo (`CATEGORIA`, `URL_CATEGORIA`, `LIBROS_OBJETIVO`).
 
-**TP2 (notebook):** abrir `src/embedding.ipynb` y ejecutar todas las celdas en orden, con el `.env` armado. La primera vez descarga SBW (1,1 GB) y el modelo SBERT, así que tarda bastante; después la corrida completa lleva unos 10 minutos. Las rutas son relativas a `src/`, así que el notebook se tiene que abrir desde esa carpeta.
+**TP2 (notebook):** abrir `src/TP2_Civetta_Frank_Fucci_Winter.ipynb` y ejecutar todas las celdas en orden, con el `.env` armado. La primera vez descarga SBW (1,1 GB) y el modelo SBERT, así que tarda bastante; después la corrida completa lleva unos 10 minutos. Las rutas son relativas a `src/`, así que el notebook se tiene que abrir desde esa carpeta.
 
 ## Resultados del TP2
 
