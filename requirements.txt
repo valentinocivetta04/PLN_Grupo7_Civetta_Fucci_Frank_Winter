@@ -23,6 +23,15 @@ psycopg2-binary>=2.9.9
 pgvector>=0.3.0
 python-dotenv>=1.0.1
 
+# --- Evaluación: test de signos para comparar métodos consulta por consulta (evaluación) ---
+scipy>=1.11.0
+
+# --- RAG con NVIDIA NIM: llamadas HTTP a la API (parte avanzada) ---
+requests>=2.31.0
+
+# --- Para correr el notebook en VS Code o Jupyter (en Colab ya viene) ---
+ipykernel>=6.29.0
+
 # Nota: no fijar numpy a una versión vieja (ej. numpy==1.23.5) para no romper
 # la compatibilidad con sentence-transformers, que necesita una versión más
 # reciente. Usar el numpy que trae el entorno (Colab) por defecto, o el que

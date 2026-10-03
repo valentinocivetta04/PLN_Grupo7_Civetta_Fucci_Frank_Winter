@@ -1,0 +1,200 @@
+[
+  {
+    "id": "q01",
+    "consulta": "relatos y novelas sobre el vampiro",
+    "tipo": "lexica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/vampiros-ilustrado/",
+      "https://ww3.lectulandia.co/book/dracula-ilustrado/",
+      "https://ww3.lectulandia.co/book/el-vampiro/"
+    ],
+    "titulos": [
+      "Vampiros (Ilustrado)",
+      "Drácula (Ilustrado)",
+      "El vampiro"
+    ]
+  },
+  {
+    "id": "q02",
+    "consulta": "novela histórica sobre la guerra carlista y el absolutismo en la España del siglo XIX",
+    "tipo": "lexica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/los-cien-mil-hijos-de-san-luis/",
+      "https://ww3.lectulandia.co/book/el-terror-de-1824/",
+      "https://ww3.lectulandia.co/book/los-apostolicos/",
+      "https://ww3.lectulandia.co/book/un-faccioso-mas-y-algunos-frailes-menos/",
+      "https://ww3.lectulandia.co/book/un-voluntario-realista/",
+      "https://ww3.lectulandia.co/book/zumalacarregui/",
+      "https://ww3.lectulandia.co/book/el-amor-el-dandismo-y-la-intriga/"
+    ],
+    "titulos": [
+      "Los cien mil hijos de san Luis",
+      "El terror de 1824",
+      "Los apostólicos",
+      "Un faccioso más y algunos frailes menos",
+      "Un voluntario realista",
+      "Zumalacárregui",
+      "El amor, el dandismo y la intriga"
+    ]
+  },
+  {
+    "id": "q03",
+    "consulta": "análisis de la lucha de clases y la revolución del proletariado",
+    "tipo": "lexica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/el-18-brumario-de-luis-bonaparte/",
+      "https://ww3.lectulandia.co/book/el-18-brumario-de-luis-bonaparte-version-ade/",
+      "https://ww3.lectulandia.co/book/poder-burgues-y-poder-revolucionario/"
+    ],
+    "titulos": [
+      "El 18 Brumario de Luis Bonaparte",
+      "El 18 Brumario de Luis Bonaparte (versión ADE)",
+      "Poder burgués y poder revolucionario"
+    ]
+  },
+  {
+    "id": "q04",
+    "consulta": "obra de teatro sobre un gobernante que pierde la razón o acaba atormentado por sus actos",
+    "tipo": "semantica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/macbeth/",
+      "https://ww3.lectulandia.co/book/macbeth-una-tragedia-en-5-actos/",
+      "https://ww3.lectulandia.co/book/el-rey-lear/"
+    ],
+    "titulos": [
+      "Macbeth",
+      "Macbeth. Una tragedia en 5 actos",
+      "El rey Lear"
+    ]
+  },
+  {
+    "id": "q05",
+    "consulta": "una niña huérfana y pobre que tiene que salir adelante",
+    "tipo": "semantica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/la-tienda-de-antiguedades/",
+      "https://ww3.lectulandia.co/book/mansfield-park/"
+    ],
+    "titulos": [
+      "La tienda de antigüedades",
+      "Mansfield Park"
+    ]
+  },
+  {
+    "id": "q06",
+    "consulta": "cuentos ambientados en la selva y sus criaturas",
+    "tipo": "semantica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/anaconda-y-otros-cuentos/",
+      "https://ww3.lectulandia.co/book/cuentos-de-la-selva-para-los-ninos/",
+      "https://ww3.lectulandia.co/book/los-desterrados-y-otros-cuentos/",
+      "https://ww3.lectulandia.co/book/textos-fronterizos/"
+    ],
+    "titulos": [
+      "Anaconda",
+      "Cuentos de la selva para los niños",
+      "Los desterrados y otros cuentos",
+      "Textos fronterizos"
+    ]
+  },
+  {
+    "id": "q07",
+    "consulta": "novela de intriga victoriana sobre un secreto de familia o una herencia en disputa",
+    "tipo": "semantica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/la-respuesta-es-no/",
+      "https://ww3.lectulandia.co/book/el-secreto-de-sarah/",
+      "https://ww3.lectulandia.co/book/sin-nombre/",
+      "https://ww3.lectulandia.co/book/armadale/",
+      "https://ww3.lectulandia.co/book/las-hojas-caidas/",
+      "https://ww3.lectulandia.co/book/la-ley-y-la-dama/",
+      "https://ww3.lectulandia.co/book/nuestro-amigo-comun/"
+    ],
+    "titulos": [
+      "La respuesta es no",
+      "El secreto de Sarah",
+      "Sin nombre",
+      "Armadale",
+      "Las hojas caídas",
+      "La ley y la dama",
+      "Nuestro amigo común"
+    ]
+  },
+  {
+    "id": "q08",
+    "consulta": "novela sobre cómo las guerras napoleónicas trastocan la vida de familias nobles",
+    "tipo": "semantica",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/guerra-y-paz-ed-muchnik/",
+      "https://ww3.lectulandia.co/book/guerra-y-paz/",
+      "https://ww3.lectulandia.co/book/la-cartuja-de-parma/"
+    ],
+    "titulos": [
+      "Guerra y paz (Ed. Muchnik)",
+      "Guerra y paz",
+      "La cartuja de Parma"
+    ]
+  },
+  {
+    "id": "q09",
+    "consulta": "pensador antiguo juzgado por impiedad y por descarriar a los mozos",
+    "tipo": "sin_palabras_comunes",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/apologia-de-socrates-trad-gredos/",
+      "https://ww3.lectulandia.co/book/apologia-de-socrates/"
+    ],
+    "titulos": [
+      "Apología de Sócrates (Trad. Gredos)",
+      "Apología de Sócrates"
+    ]
+  },
+  {
+    "id": "q10",
+    "consulta": "sujeto abandonado en un peñasco inhabitado en mitad del océano",
+    "tipo": "sin_palabras_comunes",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/robinson-crusoe/",
+      "https://ww3.lectulandia.co/book/la-tempestad/"
+    ],
+    "titulos": [
+      "Robinson Crusoe",
+      "La tempestad"
+    ]
+  },
+  {
+    "id": "q11",
+    "consulta": "pesquisidor sagaz esclarece delitos intrincados apoyándose en su ingenio",
+    "tipo": "sin_palabras_comunes",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/sherlock-holmes-la-coleccion-completa/",
+      "https://ww3.lectulandia.co/book/el-sabueso-de-los-baskerville/",
+      "https://ww3.lectulandia.co/book/el-valle-del-terror/",
+      "https://ww3.lectulandia.co/book/el-candor-del-padre-brown/"
+    ],
+    "titulos": [
+      "Sherlock Holmes. La colección completa",
+      "El sabueso de los Baskerville",
+      "El valle del terror",
+      "El candor del padre Brown"
+    ]
+  },
+  {
+    "id": "q12",
+    "consulta": "ficción y versos de un archipiélago asiático lejano",
+    "tipo": "sin_palabras_comunes",
+    "relevantes": [
+      "https://ww3.lectulandia.co/book/musashi/",
+      "https://ww3.lectulandia.co/book/botchan/",
+      "https://ww3.lectulandia.co/book/kokoro/",
+      "https://ww3.lectulandia.co/book/la-historia-de-genji/",
+      "https://ww3.lectulandia.co/book/senda-hacia-tierras-hondas/"
+    ],
+    "titulos": [
+      "Musashi",
+      "Botchan",
+      "Kokoro",
+      "La historia de Genji",
+      "Senda hacia tierras hondas"
+    ]
+  }
+]

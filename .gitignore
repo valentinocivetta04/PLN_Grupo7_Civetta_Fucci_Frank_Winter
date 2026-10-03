@@ -50,3 +50,6 @@ ms-playwright/
 Thumbs.db
 .vscode/
 .idea/
+
+# --- Material de estudio interno del grupo (no se entrega) ---
+docs/guia_estudio_tp2.pdf
