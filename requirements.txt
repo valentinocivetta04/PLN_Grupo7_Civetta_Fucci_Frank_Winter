@@ -29,6 +29,15 @@ scipy>=1.11.0
 # --- RAG con NVIDIA NIM: llamadas HTTP a la API (parte avanzada) ---
 requests>=2.31.0
 
+# --- TP3: auditoría del catálogo y recomendador ---
+# Detección de idioma por oración (paso 2.3)
+langdetect>=1.0.9
+# Semejanza de cadenas, Jaro-Winkler, para los casi duplicados (paso 1.4)
+jellyfish>=1.0.0
+# NER y frases sustantivas (paso 2.4 y paso 8). Además hay que bajar el modelo en español:
+#   python -m spacy download es_core_news_lg
+spacy>=3.7.0
+
 # --- Para correr el notebook en VS Code o Jupyter (en Colab ya viene) ---
 ipykernel>=6.29.0
 
