@@ -1,4 +1,4 @@
-# PLN · TP1 y TP2 · Grupo 7
+# PLN · TP1, TP2 y TP3 · Grupo 7
 
 Procesamiento del Lenguaje Natural, Tecnicatura Universitaria en Inteligencia Artificial (FCEIA, UNR). Comisión 2.
 
@@ -19,6 +19,8 @@ En el **TP1** armamos un corpus propio: 150 libros de la categoría "Clásico" d
 
 En el **TP2** convertimos esas sinopsis en vectores con tres modelos (un Word2Vec entrenado por nosotros, el Word2Vec pre-entrenado SBW y el modelo de oración SBERT), los guardamos en Supabase con pgvector, armamos un buscador semántico en SQL y lo evaluamos contra TF-IDF y contra el azar con 12 consultas propias. Como parte avanzada hicimos un RAG con la API de NVIDIA NIM.
 
+En el **TP3** (en curso) armamos un recomendador personalizado de libros. Partimos de un catálogo de 8747 libros que la cátedra contaminó a propósito: enlaces, mensajes promocionales y libros inventados. Primero lo auditamos con varios detectores (expresiones regulares, normalización de Unicode, detección de idioma, NER, clasificadores de oraciones con TF-IDF y con embeddings, y vecinos más cercanos para encontrar copias). Después, con las preferencias de una persona del grupo, entrenamos clasificadores que ordenan los libros que todavía no leyó.
+
 ## Estructura del repositorio
 
 ```
@@ -27,18 +29,25 @@ requirements.txt          dependencias de Python
 .env.example              plantilla de credenciales (el .env real no se sube)
 .gitignore
 queries.json              TP2: conjunto de evaluación (12 consultas con sus libros relevantes)
-informe.pdf               TP2: informe (carátula + 3 páginas)
+informe_tp2.pdf           TP2: informe (carátula + 3 páginas)
+informe_tp3.pdf           TP3: informe (todavía no está)
 data/
   libros.csv              TP1: corpus de 150 libros
+  catalogo_tp3.jsonl      TP3: catálogo de la cátedra, 8747 libros (algunos contaminados)
+  muestra_etiquetada.csv  TP3: 500 libros con la columna contaminado (también en .xlsx)
+  ejemplo_sospechosos.csv, ejemplo_preferencias.csv   TP3: formato de los archivos a entregar (también en .xlsx)
 src/
   scraper.py              TP1: scraper de Lectulandia
   TP2_Civetta_Frank_Fucci_Winter.ipynb   TP2: notebook ejecutado, con salidas
+  TP3_Civetta_Frank_Fucci_Winter.ipynb   TP3: notebook, hecho hasta el paso 3
 docs/
-  TP-1.pdf, TP-2.pdf      consignas de la cátedra
+  TP-1.pdf, TP-2.pdf, TP-3.pdf   consignas de la cátedra
   diseno_extraccion.md    TP1: diseño de la extracción (Parte 1 de la consigna)
   informe_fuente.md       TP2: fuente del informe (pandoc + xelatex)
   logo_fceia.png          logo usado en la carátula del informe
 ```
+
+El notebook del TP3 también genera, dentro de `data/`, `grupo7_sospechosos.csv` y `catalogo_limpio.csv` (paso 2.7) y `grupo7_preferencias.csv` (paso 3).
 
 Hay archivos que existen en cada máquina pero no se suben (están en `.gitignore`): `.env`, el modelo SBW (`data/SBW-vectors-300-min5.bin.gz`, 1,1 GB, el notebook lo descarga solo si falta), el entorno virtual y la guía de estudio interna `docs/guia_estudio_tp2.pdf`.
 
@@ -51,6 +60,7 @@ python -m venv .venv
 source .venv/bin/activate        # en Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 playwright install chromium      # solo hace falta para correr el scraper del TP1
+python -m spacy download es_core_news_lg   # solo hace falta para el TP3 (NER y frases sustantivas)
 ```
 
 ## Credenciales: `.env` y `.env.example`
@@ -63,7 +73,7 @@ El notebook necesita dos datos secretos: la URL de conexión a la base de Supaba
 2. En `SUPABASE_DB_URL`, reemplazar `<PEDIR_AL_GRUPO>` por la contraseña, que se comparte por privado dentro del grupo.
 3. En `NVIDIA_API_KEY`, poner una clave personal de [build.nvidia.com](https://build.nvidia.com). Solo hace falta para la parte avanzada (RAG).
 
-El notebook lee esas variables con `load_dotenv()`.
+El notebook del TP2 lee esas variables con `load_dotenv()`. El TP3 no usa credenciales.
 
 **En Google Colab** no hay `.env`. Cargar `SUPABASE_DB_URL` y `NVIDIA_API_KEY` en los *Secrets* de Colab (el ícono de la llave) y ejecutar esto antes de la Parte E:
 
@@ -82,6 +92,27 @@ for nombre in ["SUPABASE_DB_URL", "NVIDIA_API_KEY"]:
 
 **TP2 (notebook):** abrir `src/TP2_Civetta_Frank_Fucci_Winter.ipynb` y ejecutar todas las celdas en orden, con el `.env` armado. La primera vez descarga SBW (1,1 GB) y el modelo SBERT, así que tarda bastante; después la corrida completa lleva unos 10 minutos. Las rutas son relativas a `src/`, así que el notebook se tiene que abrir desde esa carpeta.
 
+**TP3 (notebook):** abrir `src/TP3_Civetta_Frank_Fucci_Winter.ipynb` desde la carpeta `src/` y correr las celdas en orden. Los pasos 1 y 2 los corre cualquiera. El paso 3 (preferencias) lo corre solo la persona del grupo que elegimos como lectora: muestra un libro por vez, guarda cada respuesta en el momento y se puede cortar y retomar. En Colab hay que correr primero las dos líneas comentadas de instalación (`pip install` y la descarga del modelo de spaCy) y cambiar `RUTA` por la carpeta donde estén los datos. El paso 2.7 codifica decenas de miles de oraciones con SBERT: con GPU tarda unos minutos y con CPU bastante más.
+
+## Estado del TP3
+
+| Paso | Tema | Estado |
+|---|---|---|
+| 1 | Cargar y revisar los libros | hecho |
+| 2 | Auditar el catálogo (detectores y `sospechosos.csv`) | hecho, falta correrlo completo en Colab y responder las preguntas de 2.3 a 2.5 |
+| 3 | Registrar las preferencias del lector | código hecho, falta que el lector elegido lo corra |
+| 4 a 8 | Separar, entrenar, comprobar, recomendar y resumir | pendiente |
+
+Faltan también el informe del TP3 (hasta 3 páginas, con las cinco preguntas de la consigna y dos o tres líneas sobre el uso de asistentes de IA) y los archivos `grupo7_sospechosos.csv` y `grupo7_preferencias.csv` ya completos. El informe del TP3 va a ser `informe_tp3.pdf`; el `informe_tp2.pdf` que está en la raíz es el del TP2.
+
+Resultado del paso 1: del catálogo original quedan 8593 libros.
+
+| Motivo | Libros eliminados |
+|---|---|
+| Sin sinopsis | 1 |
+| Sinopsis repetida (cursos y series completas) | 98 |
+| Casi duplicado (mismo autor, título parecido, mismo tomo, sinopsis casi igual) | 55 |
+
 ## Resultados del TP2
 
 | Método | P@5 | P@10 | R-precision |
@@ -92,7 +123,7 @@ for nombre in ["SUPABASE_DB_URL", "NVIDIA_API_KEY"]:
 | SBW | 0,267 | 0,208 | 0,286 |
 | SBERT | 0,350 | 0,258 | 0,466 |
 
-SBERT es el mejor en promedio y en los tres tipos de consulta, aunque con 12 consultas la diferencia con TF-IDF no es estadísticamente concluyente. El análisis completo, el caso de falla y el RAG están en `informe.pdf` y en el notebook.
+SBERT es el mejor en promedio y en los tres tipos de consulta, aunque con 12 consultas la diferencia con TF-IDF no es estadísticamente concluyente. El análisis completo, el caso de falla y el RAG están en `informe_tp2.pdf` y en el notebook.
 
 ## TP1: dificultades que encontramos
 
