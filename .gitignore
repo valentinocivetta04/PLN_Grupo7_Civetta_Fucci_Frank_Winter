@@ -53,3 +53,6 @@ Thumbs.db
 
 # --- Material de estudio interno del grupo (no se entrega) ---
 docs/guia_estudio_tp2.pdf
+
+# --- Material generado con Claude para uso interno del grupo (no se publica) ---
+Claude outputs/
