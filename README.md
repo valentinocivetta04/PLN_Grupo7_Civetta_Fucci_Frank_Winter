@@ -39,11 +39,12 @@ data/
 src/
   scraper.py              TP1: scraper de Lectulandia
   TP2_Civetta_Frank_Fucci_Winter.ipynb   TP2: notebook ejecutado, con salidas
-  TP3_Civetta_Frank_Fucci_Winter.ipynb   TP3: notebook, hecho hasta el paso 3
+  TP3_Civetta_Frank_Fucci_Winter.ipynb   TP3: notebook con los pasos 1 a 8 escritos (falta correrlo, ver abajo)
 docs/
   TP-1.pdf, TP-2.pdf, TP-3.pdf   consignas de la cátedra
   diseno_extraccion.md    TP1: diseño de la extracción (Parte 1 de la consigna)
   informe_fuente.md       TP2: fuente del informe (pandoc + xelatex)
+  informe_tp3_fuente.md   TP3: borrador del informe, con [COMPLETAR] donde faltan resultados
   logo_fceia.png          logo usado en la carátula del informe
 ```
 
@@ -101,9 +102,9 @@ for nombre in ["SUPABASE_DB_URL", "NVIDIA_API_KEY"]:
 | 1 | Cargar y revisar los libros | hecho |
 | 2 | Auditar el catálogo (detectores y `sospechosos.csv`) | hecho, falta correrlo completo en Colab y responder las preguntas de 2.3 a 2.5 |
 | 3 | Registrar las preferencias del lector | código hecho, falta que el lector elegido lo corra |
-| 4 a 8 | Separar, entrenar, comprobar, recomendar y resumir | pendiente |
+| 4 a 8 | Separar, entrenar, comprobar, recomendar y resumir | código hecho y probado, se corre cuando existan las preferencias |
 
-Faltan también el informe del TP3 (hasta 3 páginas, con las cinco preguntas de la consigna y dos o tres líneas sobre el uso de asistentes de IA) y los archivos `grupo7_sospechosos.csv` y `grupo7_preferencias.csv` ya completos. El informe del TP3 va a ser `informe_tp3.pdf`; el `informe_tp2.pdf` que está en la raíz es el del TP2.
+Para cerrar el TP3 falta, en este orden: (1) correr los pasos 1 y 2 en Colab o en una máquina con spaCy y los modelos, que generan `grupo7_sospechosos.csv` y `catalogo_limpio.csv`; (2) que el lector elegido corra el paso 3 y reúna al menos 100 respuestas válidas y 20 de cada clase; (3) correr los pasos 4 a 8; (4) completar los textos marcados «completar» del notebook; (5) completar `docs/informe_tp3_fuente.md` con los números reales y pasarlo a `informe_tp3.pdf` (hasta 3 páginas). El `informe_tp2.pdf` que está en la raíz es el del TP2.
 
 Resultado del paso 1: del catálogo original quedan 8593 libros.
 
