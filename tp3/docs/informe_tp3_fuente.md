@@ -54,41 +54,52 @@ Winter, Federico & Legajo 44101265 \\
 \setcounter{page}{1}
 ```
 
-## 1. Auditoría del catálogo: detectores y costo de un falso positivo
+## 1. Detectores de la auditoría y costo de un falso positivo
 
-*[COMPLETAR con la tabla del paso 2.7, calculada sobre la parte de prueba de la muestra: precisión y recall de cada detector y de la combinación.]*
+Medimos cada detector sobre la parte de prueba de la muestra etiquetada (150 libros, 30 contaminados), separada por libro con `random_state=42`. Los umbrales y patrones salieron siempre de la parte de desarrollo.
 
-Usamos cinco detectores. La **expresión regular** (URLs, correos y teléfonos) encuentra los enlaces escritos de forma explícita. La **normalización** (palabras en lugar de signos, letras separadas, `[.]`, letras de otro alfabeto, caracteres invisibles) recupera los enlaces disimulados y se acompaña de una regex de dominios sin `http`. La **detección de idioma por oración** encuentra mensajes en otro idioma dentro de una sinopsis en español, con un mínimo de *[N]* palabras y una probabilidad de *[P]* elegidos sobre la muestra de desarrollo. Los **clasificadores de oraciones** (TF-IDF y embeddings, con umbral para precisión 0,90) encuentran el texto promocional sin enlaces. Los **vecinos más cercanos** (coseno sobre TF-IDF, autores distintos, una sinopsis que contiene a la otra) encuentran libros que copian una sinopsis ajena. El NER con spaCy *[COMPLETAR: ¿detectó o solo explicó?]*.
+| Detector | Qué contaminación encuentra | Precisión | Recall |
+|------------------------|----------------------------------------------------------|----------:|-------:|
+| Expresión regular | Enlaces explícitos, correos y teléfonos | 1,00 | 0,23 |
+| Normalización + dominios | Enlaces disimulados: letras separadas, `[.]`, cirílico, invisibles | 1,00 | 0,63 |
+| Idioma por oración | Mensajes en inglés o portugués dentro de la sinopsis | 0,62 | 0,33 |
+| Clasificador TF-IDF | Publicidad con palabras que se repiten | 1,00 | 0,93 |
+| Clasificador con embeddings | Publicidad dicha con otras palabras | 0,90 | 0,87 |
+| Copias (vecino más cercano) | Libros inventados que copian otra sinopsis | 1,00 | 0,10 |
+| **Combinación (al menos uno)** | | **0,79** | **1,00** |
 
-Un falso positivo es un libro legítimo que sale del catálogo y que el recomendador ya no puede ofrecer nunca. Por eso combinamos los detectores con una unión ("al menos uno lo marca") y miramos la precisión de la unión, no solo su recall. *[COMPLETAR: cuántos falsos positivos dejó la combinación y cuáles fueron, por ejemplo sinopsis que mencionan sitios reales.]*
+Mirando los motivos de cada libro contaminado de prueba, la regex encontró los 4 enlaces explícitos, la normalización 12 de los 14 enlaces disimulados y el detector de idioma los 5 mensajes en otro idioma. La publicidad en español sin enlace (7 libros) solo la encontraron los clasificadores. El idioma de la sinopsis completa no sirvió: langdetect dijo `es` para los 350 libros de desarrollo. El NER con spaCy lo usamos para explicar y no para detectar: en el texto insertado predominan las MISC («Download this ebook for FREE», «EPUB sin registro») y confunde imperativos con personas («compartila», «Ganá»).
 
-## 2. Qué representa la etiqueta `interes` y quién la dio
+Un falso positivo es un libro legítimo que sale del catálogo y nunca se va a poder recomendar. La combinación tuvo 8 en prueba, y 6 vinieron del detector de idioma. En el catálogo completo marcamos 703 libros (8,2 %) y quedaron 7.890. Es más de lo esperable, porque la muestra está enriquecida al 20 % y el catálogo tiene bastante menos contaminación. El idioma marcó 261 libros, 172 sin que coincidiera ningún otro detector, muchos de ellos antologías y revistas de ciencia ficción. Si lo repitiéramos, exigiríamos que el idioma coincida con otro detector antes de sacar un libro.
 
-`interes` vale 1 si a la persona le interesaría leer el libro después de ver su título y su sinopsis, y 0 si no. No mide si el libro es bueno ni si lo leyó: es una intención declarada a partir de un texto corto. Las valoraciones las dio *[COMPLETAR: nombre del lector]*, una sola persona, en casa y antes de ver ninguna predicción, recorriendo el catálogo limpio en el orden de `df.sample(frac=1, random_state=42)`. Quedaron *[N]* respuestas válidas (*[N1]* con 1 y *[N0]* con 0), *[N]* abstenciones y *[N]* libros marcados como contaminados por revisión manual.
+## 2. La etiqueta `interes` y quién valoró
+
+`interes` vale 1 si al lector le interesaría leer el libro después de ver su título y su sinopsis, y 0 si no. Es una intención declarada a partir de un texto corto: no dice si el libro es bueno ni si lo leyó. Todas las valoraciones las hizo Valentino Civetta, en varias tandas y antes de ver predicciones, recorriendo el catálogo limpio en el orden de `df.sample(frac=1, random_state=42)`. Vio 101 libros: 46 con 1, 54 con 0 y uno sin valorar porque no pudo decidir. No encontró contaminados que se le hubieran escapado al paso 2. Con `train_test_split` estratificado quedaron 80 libros de entrenamiento (37 positivos) y 20 de prueba (9 positivos).
 
 ## 3. TF-IDF contra embeddings
 
-*[COMPLETAR con las dos tablas: detección de contaminación (paso 2.5) y clasificación de preferencias (paso 6).]*
+| Tarea y medida | TF-IDF | Embeddings |
+|------------------------------------------------------------|---------------:|---------------:|
+| Auditoría, prueba (precisión / recall) | 1,00 / 0,93 | 0,90 / 0,87 |
+| Auditoría, desarrollo con precisión 0,90 (recall) | 0,91 | 0,93 |
+| Preferencias, prueba (F1 de la clase 1) | 0,35 | 0,52 |
+| Preferencias, validación cruzada 5×10 (F1, media ± desvío) | 0,42 ± 0,19 | 0,53 ± 0,16 |
+| Preferencias, precision@5 | 0,20 | 0,80 |
 
-En la **detección** esperamos que TF-IDF gane con cadenas literales (una URL, una palabra de oferta que se repite) y que los embeddings generalicen mejor a frases nuevas con el mismo sentido, como las que hay en el catálogo y no en la muestra. *[COMPLETAR con lo que mostraron los números: recall a igual precisión y por tipo de contaminación.]* En la **clasificación de preferencias** tenemos *[N]* libros de entrenamiento y *[N]* de prueba; la media y el desvío del F1 de la clase 1 en la validación cruzada fueron *[X ± Y]* con TF-IDF y *[X ± Y]* con embeddings. *[COMPLETAR: en qué tarea fue mayor la diferencia y por qué. Pistas: en la auditoría hay cientos de oraciones por clase y el texto insertado es corto y repetitivo; en las preferencias hay unas pocas decenas de libros y la señal es el tema, no una cadena de texto.]*
+En la auditoría quedaron casi empatados y TF-IDF fue apenas mejor en prueba. Ahí había 2.095 oraciones de entrenamiento y publicidad que repite palabras exactas («Visitá», «gratis», `.example`), justo lo que TF-IDF capta. Clasificamos oraciones porque el mensaje insertado mide unos 81 caracteres contra unos 970 de una sinopsis, y en el vector de la sinopsis entera queda diluido. Para los mensajes nuevos del catálogo, con el mismo sentido y otras palabras, esperamos que generalicen mejor los embeddings, que son multilingües.
 
-## 4. ¿Mejoró algún clasificador a la similitud?
+La diferencia fue mayor en las preferencias. Con 80 sinopsis, TF-IDF arma un vocabulario de 4.008 palabras con muy pocos ejemplos de cada una y termina dándoles peso a palabras vacías («su», «para», «de»). Los embeddings traen el significado aprendido de antes, y para captar un gusto por temas (ciencia, guerra, historia) eso sirve más que las palabras exactas.
 
-| Lista (mismos libros de prueba) | Aciertos en los 5 primeros | precision@5 |
-|---|---|---|
-| TF-IDF + clasificador | *[N]* | *[X]* |
-| Embeddings + clasificador | *[N]* | *[X]* |
-| Similitud con el perfil | *[N]* | *[X]* |
-| Azar (proporción de 1 en prueba) | | *[X]* |
+## 4. ¿Algún clasificador mejoró a la similitud?
 
-*[COMPLETAR: responder sí o no con estos números. Con cinco libros por lista, un acierto de diferencia mueve 0,20, y con 20 libros de prueba esa diferencia puede ser puro azar; decirlo.]*
+Sí, el de embeddings. Sobre los mismos 20 libros de prueba, sus 5 primeros tuvieron 4 libros de interés (precision@5 de 0,80), mientras que el clasificador con TF-IDF y la similitud con el perfil del lector acertaron 1 de 5 (0,20). Elegir al azar da 0,45 en promedio. Igual hay que tomarlo con cuidado: si se eligen 5 libros al azar entre esos 20, la probabilidad de acertar 4 o más es de casi 10 %. Lo que lo hace más creíble es que en la validación cruzada embeddings también rindió mejor. Creemos que el perfil anduvo mal porque es el promedio de 37 libros muy variados y queda en un punto medio que no se parece a ninguno. El clasificador, en cambio, también aprende de los libros que no le interesaron.
 
-## 5. Error encontrado y límites del experimento
+## 5. Un error y los límites del experimento
 
-*[COMPLETAR: un error concreto del paso 6 (falso positivo o falso negativo) con el título del libro, la probabilidad que dio cada modelo y por qué creemos que pasó. Opcional: un libro contaminado que el lector encontró y los detectores no.]*
+*La promesa del barón*, una novela romántica de época que el lector valoró con 0, fue un falso positivo de los dos modelos, con probabilidades de 0,53 y 0,50. Las palabras que más empujaron al modelo TF-IDF fueron «su», «desde», «para», «familia» y «de»: palabras vacías que aparecen en cualquier sinopsis. En el catálogo completo el clasificador recomendó cinco libros de intriga, espionaje y Segunda Guerra, y el lector aceptó dos (*Hitler y las teorías de la conspiración* y *El espía de Madrid. Barcelona, 1936*). Le interesaron los de fondo histórico real y no los policiales de ficción, una diferencia que el modelo no hace. El resumen extractivo también falló en un caso: en *El hombre en la red* se perdió la oración que dice que las sospechas recaen sobre el protagonista.
 
-Los límites que ya conocemos: el lector es una sola persona y sus 100 respuestas son una muestra chica, así que las métricas de prueba (20 libros) son orientativas; la muestra etiquetada tiene 20 % de contaminados y el catálogo mucho menos, de modo que la precisión que medimos es más optimista que la real; la muestra no incluye todas las variantes de contaminación; SBERT lee como máximo 128 tokens y corta las sinopsis largas; y una puntuación alta es una estimación del modelo, no garantía de que el libro le guste después de leerlo.
+El límite principal es el tamaño: un solo lector, 100 valoraciones y 20 libros de prueba, donde un libro cambia 0,05 la exactitud y más todavía la precisión o el recall. Un modelo que respondiera que sí a todo tendría F1 de 0,62 en prueba, más que los nuestros, así que el F1 solo no alcanza para decir que los clasificadores aprendieron. Además SBERT lee solo los primeros 128 tokens de cada sinopsis, la muestra etiquetada no tiene todas las variantes de contaminación y una puntuación alta es una estimación, no una garantía de que el libro le guste.
 
 ## 6. Uso de asistentes de IA
 
-Usamos Claude (Anthropic) como asistente durante el trabajo: para entender los pasos de la consigna, escribir y depurar el código del notebook y redactar los textos y una primera versión de este informe. Las valoraciones de `interes` son exclusivamente las del lector elegido, y la interpretación de los resultados la discutimos en el grupo. Somos responsables de todo lo que entregamos.
+Usamos Claude (Anthropic) para entender la consigna, escribir y depurar el código del notebook, resolver los problemas de ejecución en Colab y redactar una primera versión de los textos y de este informe. Las valoraciones de `interes` y los comentarios sobre las recomendaciones son del lector, y los resultados los revisamos en el grupo. Somos responsables de todo lo que entregamos.
