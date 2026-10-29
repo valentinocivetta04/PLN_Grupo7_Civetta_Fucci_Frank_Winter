@@ -102,4 +102,4 @@ El límite principal es el tamaño: un solo lector, 100 valoraciones y 20 libros
 
 ## 6. Uso de asistentes de IA
 
-Usamos Claude (Anthropic) para entender la consigna, escribir y depurar el código del notebook, resolver los problemas de ejecución en Colab y redactar una primera versión de los textos y de este informe. Las valoraciones de `interes` y los comentarios sobre las recomendaciones son del lector, y los resultados los revisamos en el grupo. Somos responsables de todo lo que entregamos.
+Usamos Claude (Anthropic) para comprender conceptos, programar y revisar errores del notebook, y como apoyo en la redacción. Las valoraciones de `interes` son del lector y los resultados los discutimos en el grupo.
