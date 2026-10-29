@@ -19,7 +19,7 @@ En el **TP1** armamos un corpus propio: 150 libros de la categoría "Clásico" d
 
 En el **TP2** convertimos esas sinopsis en vectores con tres modelos (un Word2Vec entrenado por nosotros, el Word2Vec pre-entrenado SBW y el modelo de oración SBERT), los guardamos en Supabase con pgvector, armamos un buscador semántico en SQL y lo evaluamos contra TF-IDF y contra el azar con 12 consultas propias. Como parte avanzada hicimos un RAG con la API de NVIDIA NIM.
 
-En el **TP3** (en curso) armamos un recomendador personalizado de libros. Partimos de un catálogo de 8747 libros que la cátedra contaminó a propósito: enlaces, mensajes promocionales y libros inventados. Primero lo auditamos con varios detectores (expresiones regulares, normalización de Unicode, detección de idioma, NER, clasificadores de oraciones con TF-IDF y con embeddings, y vecinos más cercanos para encontrar copias). Después, con las preferencias de una persona del grupo, entrenamos clasificadores que ordenan los libros que todavía no leyó.
+En el **TP3** armamos un recomendador personalizado de libros. Partimos de un catálogo de 8747 libros que la cátedra contaminó a propósito: enlaces, mensajes promocionales y libros inventados. Primero lo auditamos con varios detectores (expresiones regulares, normalización de Unicode, detección de idioma, NER, clasificadores de oraciones con TF-IDF y con embeddings, y vecinos más cercanos para encontrar copias). Después, con las preferencias de una persona del grupo, entrenamos clasificadores que ordenan los libros que todavía no leyó. Todo lo del TP3 está en la carpeta `tp3/`, como pide la consigna.
 
 ## Estructura del repositorio
 
@@ -30,25 +30,31 @@ requirements.txt          dependencias de Python
 .gitignore
 queries.json              TP2: conjunto de evaluación (12 consultas con sus libros relevantes)
 informe_tp2.pdf           TP2: informe (carátula + 3 páginas)
-informe_tp3.pdf           TP3: informe (todavía no está)
 data/
   libros.csv              TP1: corpus de 150 libros
-  catalogo_tp3.jsonl      TP3: catálogo de la cátedra, 8747 libros (algunos contaminados)
-  muestra_etiquetada.csv  TP3: 500 libros con la columna contaminado (también en .xlsx)
-  ejemplo_sospechosos.csv, ejemplo_preferencias.csv   TP3: formato de los archivos a entregar (también en .xlsx)
 src/
   scraper.py              TP1: scraper de Lectulandia
   TP2_Civetta_Frank_Fucci_Winter.ipynb   TP2: notebook ejecutado, con salidas
-  TP3_Civetta_Frank_Fucci_Winter.ipynb   TP3: notebook con los pasos 1 a 8 escritos (falta correrlo, ver abajo)
 docs/
-  TP-1.pdf, TP-2.pdf, TP-3.pdf   consignas de la cátedra
+  TP-1.pdf, TP-2.pdf      consignas de la cátedra
   diseno_extraccion.md    TP1: diseño de la extracción (Parte 1 de la consigna)
   informe_fuente.md       TP2: fuente del informe (pandoc + xelatex)
-  informe_tp3_fuente.md   TP3: borrador del informe, con [COMPLETAR] donde faltan resultados
   logo_fceia.png          logo usado en la carátula del informe
+tp3/                      TP3: todo lo de la entrega
+  TP3_Civetta_Frank_Fucci_Winter.ipynb   notebook ejecutado (pasos 1 a 8 y conclusiones)
+  grupo7_sospechosos.csv  libros marcados en la auditoría (slug y motivo)
+  grupo7_preferencias.csv valoraciones del lector, con la columna conjunto
+  informe_tp3.pdf         informe (carátula + 2 páginas)
+  data/
+    catalogo_tp3.jsonl    catálogo de la cátedra, 8747 libros (algunos contaminados)
+    muestra_etiquetada.csv   500 libros con la columna contaminado (también en .xlsx)
+    catalogo_limpio.csv   catálogo sin los sospechosos (lo genera el paso 2.7)
+    ejemplo_sospechosos.csv, ejemplo_preferencias.csv   formato de los archivos de entrega (también en .xlsx)
+  docs/
+    TP-3.pdf              consigna de la cátedra
+    informe_tp3_fuente.md fuente del informe (pandoc + xelatex)
+    logo_fceia.png        logo de la carátula
 ```
-
-El notebook del TP3 también genera, dentro de `data/`, `grupo7_sospechosos.csv` y `catalogo_limpio.csv` (paso 2.7) y `grupo7_preferencias.csv` (paso 3).
 
 Hay archivos que existen en cada máquina pero no se suben (están en `.gitignore`): `.env`, el modelo SBW (`data/SBW-vectors-300-min5.bin.gz`, 1,1 GB, el notebook lo descarga solo si falta), el entorno virtual y la guía de estudio interna `docs/guia_estudio_tp2.pdf`.
 
@@ -93,26 +99,42 @@ for nombre in ["SUPABASE_DB_URL", "NVIDIA_API_KEY"]:
 
 **TP2 (notebook):** abrir `src/TP2_Civetta_Frank_Fucci_Winter.ipynb` y ejecutar todas las celdas en orden, con el `.env` armado. La primera vez descarga SBW (1,1 GB) y el modelo SBERT, así que tarda bastante; después la corrida completa lleva unos 10 minutos. Las rutas son relativas a `src/`, así que el notebook se tiene que abrir desde esa carpeta.
 
-**TP3 (notebook):** abrir `src/TP3_Civetta_Frank_Fucci_Winter.ipynb` desde la carpeta `src/` y correr las celdas en orden. Los pasos 1 y 2 los corre cualquiera. El paso 3 (preferencias) lo corre solo la persona del grupo que elegimos como lectora: muestra un libro por vez, guarda cada respuesta en el momento y se puede cortar y retomar. En Colab hay que correr primero las dos líneas comentadas de instalación (`pip install` y la descarga del modelo de spaCy) y cambiar `RUTA` por la carpeta donde estén los datos. El paso 2.7 codifica decenas de miles de oraciones con SBERT: con GPU tarda unos minutos y con CPU bastante más.
+**TP3 (notebook):** abrir `tp3/TP3_Civetta_Frank_Fucci_Winter.ipynb` desde la carpeta `tp3/` y correr las celdas en orden. Lee los datos de `tp3/data/` y guarda los dos CSV de entrega en `tp3/`. El paso 3 lo corre solo el lector: muestra un libro por vez, guarda cada respuesta en el momento y se puede cortar y retomar. Como `grupo7_preferencias.csv` ya está completo, si se vuelve a correr no pregunta nada. Nosotros lo ejecutamos en Google Colab con GPU; ahí hay que descomentar la celda de instalación y poner `RUTA` y `ENTREGA` en `/content/` (o la carpeta donde se suban los archivos). El paso 2.7 codifica decenas de miles de oraciones con SBERT: con GPU tarda unos minutos y con CPU bastante más.
 
-## Estado del TP3
+## Resultados del TP3
 
-| Paso | Tema | Estado |
-|---|---|---|
-| 1 | Cargar y revisar los libros | hecho |
-| 2 | Auditar el catálogo (detectores y `sospechosos.csv`) | hecho, falta correrlo completo en Colab y responder las preguntas de 2.3 a 2.5 |
-| 3 | Registrar las preferencias del lector | código hecho, falta que el lector elegido lo corra |
-| 4 a 8 | Separar, entrenar, comprobar, recomendar y resumir | código hecho y probado, se corre cuando existan las preferencias |
-
-Para cerrar el TP3 falta, en este orden: (1) correr los pasos 1 y 2 en Colab o en una máquina con spaCy y los modelos, que generan `grupo7_sospechosos.csv` y `catalogo_limpio.csv`; (2) que el lector elegido corra el paso 3 y reúna al menos 100 respuestas válidas y 20 de cada clase; (3) correr los pasos 4 a 8; (4) completar los textos marcados «completar» del notebook; (5) completar `docs/informe_tp3_fuente.md` con los números reales y pasarlo a `informe_tp3.pdf` (hasta 3 páginas). El `informe_tp2.pdf` que está en la raíz es el del TP2.
-
-Resultado del paso 1: del catálogo original quedan 8593 libros.
+En el paso 1 quedaron 8593 libros del catálogo original.
 
 | Motivo | Libros eliminados |
 |---|---|
 | Sin sinopsis | 1 |
 | Sinopsis repetida (cursos y series completas) | 98 |
 | Casi duplicado (mismo autor, título parecido, mismo tomo, sinopsis casi igual) | 55 |
+
+En la auditoría (paso 2) medimos cada detector sobre la parte de prueba de la muestra etiquetada (150 libros, 30 contaminados):
+
+| Detector | Precisión | Recall |
+|---|---|---|
+| Expresión regular | 1,00 | 0,23 |
+| Normalización + dominios | 1,00 | 0,63 |
+| Idioma por oración | 0,62 | 0,33 |
+| Clasificador de oraciones TF-IDF | 1,00 | 0,93 |
+| Clasificador de oraciones con embeddings | 0,90 | 0,87 |
+| Copias (vecino más cercano) | 1,00 | 0,10 |
+| Combinación (al menos uno) | 0,79 | 1,00 |
+
+En el catálogo completo marcamos 703 libros (8,2 %) y quedaron 7890 en `catalogo_limpio.csv`. El detector de idioma es el que más falsos positivos suma.
+
+El lector fue Valentino Civetta: valoró 101 libros (46 le interesaron, 54 no y uno quedó sin decidir). Con 80 libros para entrenar y 20 para probar:
+
+| Lista de recomendación | F1 clase 1 (prueba) | F1 validación cruzada | precision@5 |
+|---|---|---|---|
+| TF-IDF + regresión logística | 0,35 | 0,42 ± 0,19 | 0,20 |
+| Embeddings + regresión logística | 0,52 | 0,53 ± 0,16 | 0,80 |
+| Similitud con el perfil del lector | | | 0,20 |
+| Azar | | | 0,45 |
+
+El clasificador con embeddings fue el único que recomendó mejor que el azar, aunque con 20 libros de prueba parte de esa diferencia puede ser suerte. En el catálogo completo recomendó cinco libros de intriga, espionaje y Segunda Guerra, y al lector le interesaron dos. El análisis completo está en el notebook y en `tp3/informe_tp3.pdf`.
 
 ## Resultados del TP2
 
