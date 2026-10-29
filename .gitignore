@@ -1,6 +1,6 @@
 # --- Modelos pre-entrenados descargados (pesados, no deben versionarse) ---
 # El notebook descarga este archivo automáticamente vía gdown si no existe.
-data/SBW-vectors-300-min5.bin.gz
+tp2/data/SBW-vectors-300-min5.bin.gz
 *.bin.gz
 *.bin
 *.vec
@@ -52,7 +52,7 @@ Thumbs.db
 .idea/
 
 # --- Material de estudio interno del grupo (no se entrega) ---
-docs/guia_estudio_tp2.pdf
+tp2/docs/guia_estudio_tp2.pdf
 
 # --- Material generado con Claude para uso interno del grupo (no se publica) ---
 Claude outputs/

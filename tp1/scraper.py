@@ -4,7 +4,7 @@ scraper.py
 Scraper para el TP de Procesamiento del Lenguaje Natural (Unidad 1).
 
 Recorre una categoría de Lectulandia, visita cada ficha de libro, extrae
-sus metadatos y sinopsis, y guarda todo en data/libros.csv.
+sus metadatos y sinopsis, y guarda todo en tp1/data/libros.csv.
 
 Herramientas:
 - Playwright: navega el sitio (carga las páginas como lo haría un browser real).
@@ -30,7 +30,8 @@ URL_BASE = "https://ww3.lectulandia.co"
 CATEGORIA = "Clásico"
 URL_CATEGORIA = f"{URL_BASE}/genero/clasico/page/"
 LIBROS_OBJETIVO = 150
-ARCHIVO_CSV = "data/libros.csv"
+# el CSV queda en data/ al lado de este archivo, sin importar desde donde se corra
+ARCHIVO_CSV = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "libros.csv")
 
 
 async def extraer_datos_ficha(page, url_libro):
@@ -118,7 +119,7 @@ async def main():
        objetivo o quedarse sin páginas.
     """
 
-    os.makedirs("data", exist_ok=True)
+    os.makedirs(os.path.dirname(ARCHIVO_CSV), exist_ok=True)
 
     # Se borra el CSV de una corrida anterior para generar el dataset desde cero.
     if os.path.exists(ARCHIVO_CSV):
